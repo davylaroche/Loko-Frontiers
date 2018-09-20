@@ -228,8 +228,7 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                     end
                     
                     %% traitement Plan de Covariation
-                    [COEFF, EXPLAINED]=CovariationPlane(meanAngle,indglob) 
-                    
+                    [COEFF, EXPLAINED]=CovariationPlane(meanAngle,indglob); 
                     meanAngle.PlanCovIndex(:,indglob)=EXPLAINED;
                     meanAngle.PlanCovAngle(:,indglob*3-2:indglob*3)=COEFF;     
                                        

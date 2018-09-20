@@ -35,8 +35,11 @@ end
 [shank, T2] = angles_solver(O, Ofoot, 'YXZ');
 [foot, T3] = angles_solver(O, distaFoot, 'XYZ');
 
-%% réduire données avant PCA
+%% Centrer / réduire données avant PCA
+M = [thigh(:,1) shank(:,1) foot(:,1)];
+Mc = M - (ones(size(M, 1), 1) * nanmean(M));
+Mcr = Mc/diag(nanstd(Mc, 1));
 
-
-
-[COEFF,SCORE,LATENT,TSQUARE,EXPLAINED] = pca([thigh(:,1) shank(:,1) foot(:,1)]);
+%% Effectuer la PCA sur la matrice de covariance
+V = cov(Mcr);
+[COEFF,~,EXPLAINED] = pcacov(V);
