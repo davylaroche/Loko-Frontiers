@@ -43,3 +43,5 @@ Mcr = Mc/diag(nanstd(Mc, 1));
 %% Effectuer la PCA sur la matrice de covariance
 V = cov(Mcr);
 [COEFF,~,EXPLAINED] = pcacov(V);
+
+%% coucou davy the rock
