@@ -1,7 +1,5 @@
 function [COEFF, EXPLAINED]=CovariationPlane(kinematic,indglob)
 
-
-
 %%% Construction des matrices 
 Othigh = [kinematic.PELA(:,indglob*3-2:indglob*3)-kinematic.PELO(:,indglob*3-2:indglob*3) kinematic.PELL(:,indglob*3-2:indglob*3)-kinematic.PELO(:,indglob*3-2:indglob*3) kinematic.PELP(:,indglob*3-2:indglob*3)-kinematic.PELO(:,indglob*3-2:indglob*3)];
 Oshank = [kinematic.FEA(:,indglob*3-2:indglob*3)-kinematic.FEO(:,indglob*3-2:indglob*3) kinematic.FEL(:,indglob*3-2:indglob*3)-kinematic.FEO(:,indglob*3-2:indglob*3) kinematic.FEP(:,indglob*3-2:indglob*3)-kinematic.FEO(:,indglob*3-2:indglob*3)];
@@ -43,5 +41,3 @@ Mcr = Mc/diag(nanstd(Mc, 1));
 %% Effectuer la PCA sur la matrice de covariance
 V = cov(Mcr);
 [COEFF,~,EXPLAINED] = pcacov(V);
-
-%% coucou davy the rock

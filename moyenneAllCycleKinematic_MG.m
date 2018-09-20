@@ -24,7 +24,7 @@ pointsLabelStruct = {'Ptilt', 'Pobli','Prota',...
     'FEA','FEO','FEL','FEP',...
     'TIA','TIO','TIL','TIP',...
     'TOA','TOO','TOL','TOP',...
-    'PlanCovIndex','PlanCovAngle'};
+    'PlanCovIndex','PlanCov_u1', 'PlanCov_u3'};
 
 numStruct = length(pointsLabelStruct);
 
@@ -230,7 +230,8 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                     %% traitement Plan de Covariation
                     [COEFF, EXPLAINED]=CovariationPlane(meanAngle,indglob); 
                     meanAngle.PlanCovIndex(:,indglob)=EXPLAINED;
-                    meanAngle.PlanCovAngle(:,indglob*3-2:indglob*3)=COEFF;     
+                    meanAngle.PlanCov_u1(:,indglob)=COEFF(1,1);
+                    meanAngle.PlanCov_u3(:,indglob)=COEFF(1,3);     
                                        
                     %%
                     indglob = indglob+1;
