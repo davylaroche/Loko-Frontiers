@@ -36,6 +36,8 @@ paramST.Left.strideLenght = [];
 paramST.Left.strideWidth = [];
 paramST.Left.strideTime = [];
 
+paramST.Left.CoM_vert = [];
+
 paramST.Left.speedCoM = [];
 paramST.Left.cadence = [];
 paramST.Left.speedCadenceStrideLenght = [];
@@ -179,6 +181,14 @@ for i = 1:2
             paramST.(cote{i}).cadence = [paramST.(cote{i}).cadence,cadence];
             paramST.(cote{i}).speedCadenceStrideLenght = [paramST.(cote{i}).speedCadenceStrideLenght,speed];
             
+            
+            %% ajout MG pour LOCOX Frontiers
+            CoM_cible = CoM(FS(c1):FS(c1+1),:);
+                       
+            % Amplitude max mouvements verticaux du CoM pdt cycle de marche
+            CoM_vert = max(CoM_cible(:,3))-abs(min(CoM_cible(:,3)));
+            paramST.(cote{i}).CoM_vert = [paramST.(cote{i}).CoM_vert,CoM_vert];
+                      
             
             %% Paramètre de cycle
             strideTot = FS(c1+1)-FS(c1);
