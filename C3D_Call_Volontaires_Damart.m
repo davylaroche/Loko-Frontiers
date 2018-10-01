@@ -1,15 +1,15 @@
 % Permet de lister tous les .c3d de tous les patients
 % Patients concernés : inscrits dans le fichier excel
-% Protocole : Locox 2
+% Protocole : DAMART
 clc; clear all; 
 
 %% Chemin ordi VICON
-% FILENAME_DBPATIENTS = 'D:\projets terminés\LOCOX_2\liste_volontaires.xlsx';
-% folder = 'D:\projets terminés\LOCOX_2\Volontaires\';
+% FILENAME_DBPATIENTS = 'D:\projets terminés\Daamrt-S\liste_volontaires_Damart.xlsx';
+% folder = 'D:\projets terminés\Damart-S\Damart\';
 
 %% Chemin ordi MG 
-FILENAME_DBPATIENTS = 'Y:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\liste_volontaires.xlsx';
-folder = 'Y:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\Volontaires\';
+FILENAME_DBPATIENTS = 'Y:\Backup PIT\Backup Vicon\projets terminés\Damart-S\liste_volontaires_Damart.xlsx';
+folder = 'Y:\Backup PIT\Backup Vicon\projets terminés\Damart-S\Damart\';
 repertorySave = 'B:\Documents\4. Valorisation\2. Articles\4. Puissance & vitesse marche\Results_Locox_Frontiers\';
 
 %% listing subject
@@ -24,7 +24,7 @@ tableauExcelTotal = {'Sujet','vitesseMarche',...
     'IntegralePHipPositive','IntegralePHipNegative','IntegralePKneePositive','IntegralePKneeNegative','IntegralePAnklePositive','IntegralePAnkleNegative'};
 
 %% Listing C3D par Volontaires
-for c1 = 2%1 : 2%length(id)
+for c1 = 1 : length(id)
     c1
     id(c1, :)
     
@@ -62,23 +62,20 @@ for c1 = 2%1 : 2%length(id)
         if max(KINsel.Hflex(:,i))>0 && min(KINsel.Hflex(:,i))<0
            var2extract.RoMSagittalHip(i,1) =  max(KINsel.Hflex(:,i))+abs(min(KINsel.Hflex(:,i)));
         else
-           var2extract.RoMSagittalHip(i,1) =  max(KINsel.Hflex(:,i))-min(KINsel.Hflex(:,i)));
+           var2extract.RoMSagittalHip(i,1) =  max(KINsel.Hflex(:,i))-min(KINsel.Hflex(:,i));
         end
         
         if max(KINsel.Kflex(:,i))>0 && min(KINsel.Kflex(:,i))<0
            var2extract.RoMSagittalKnee(i,1) =  max(KINsel.Kflex(:,i))+abs(min(KINsel.Kflex(:,i)));
         else
-           var2extract.RoMSagittalKnee(i,1) =  max(KINsel.Kflex(:,i))-min(KINsel.Kflex(:,i)));
+           var2extract.RoMSagittalKnee(i,1) =  max(KINsel.Kflex(:,i))-min(KINsel.Kflex(:,i));
         end
         
         if max(KINsel.Aflex(:,i))>0 && min(KINsel.Aflex(:,i))<0
-           var2extract.RoMSagittalKnee(i,1) =  max(KINsel.Aflex(:,i))+abs(min(KINsel.Aflex(:,i)));
+           var2extract.RoMSagittalAnkle(i,1) =  max(KINsel.Aflex(:,i))+abs(min(KINsel.Aflex(:,i)));
         else
-           var2extract.RoMSagittalKnee(i,1) =  max(KINsel.Aflex(:,i))-min(KINsel.Aflex(:,i)));
+           var2extract.RoMSagittalAnkle(i,1) =  max(KINsel.Aflex(:,i))-min(KINsel.Aflex(:,i));
         end
-        
-        var2extract.RoMSagittalKnee(i,1) =  max(KINsel.Kflex(:,i))-abs(min(KINsel.Kflex(:,i)));
-        var2extract.RoMSagittalAnkle(i,1) =  max(KINsel.Aflex(:,i))-abs(min(KINsel.Aflex(:,i)));
     end
     
     % Coordination : PI, u1 et u3
@@ -197,7 +194,7 @@ end
 
 % Enregistrement des fichiers excel de données - TOU SUJETS
 cd(repertorySave)
-xlswrite('LOCOX_Frontiers.xls',tableauExcelTotal)
+xlswrite('DAMART_Frontiers.xls',tableauExcelTotal)
 
 
 
