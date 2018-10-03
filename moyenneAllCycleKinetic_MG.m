@@ -65,7 +65,7 @@ freq = btkGetPointFrequency(acq);
 points = btkGetPoints(acq);
 Events = btkGetEvents(acq);
 
-fc = 6;%fréquence de coupure
+fc = 40;%fréquence de coupure
 [b,a] = butter(4,fc/(freq/2));
 
 
@@ -416,9 +416,9 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         %                                 meanAngle.KneeEvertMoment = dataExtracted.RAnkleMoment(:,3);
                                         
                                         % Power
-                                        meanAngle.HipPower(:,indglob) = dataExtracted.LHipPower(:,3);
-                                        meanAngle.KneePower(:,indglob) = dataExtracted.LKneePower(:,3);
-                                        meanAngle.AnklePower(:,indglob) = dataExtracted.LAnklePower(:,3);
+                                        meanAngle.HipPower(:,indglob) = dataExtracted.LHipPower(:,1);
+                                        meanAngle.KneePower(:,indglob) = dataExtracted.LKneePower(:,1);
+                                        meanAngle.AnklePower(:,indglob) = dataExtracted.LAnklePower(:,1);
                                         
                                         % Plateforme
                                         %                                     meanAngle.LatMedGRF(:,indglob) = forcePlateformNormalize(:,1);

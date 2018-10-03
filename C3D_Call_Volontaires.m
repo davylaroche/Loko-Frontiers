@@ -8,9 +8,14 @@ clc; clear all;
 % folder = 'D:\projets terminés\LOCOX_2\Volontaires\';
 
 %% Chemin ordi MG 
-FILENAME_DBPATIENTS = 'Y:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\liste_volontaires.xlsx';
-folder = 'Y:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\Volontaires\';
-repertorySave = 'B:\Documents\4. Valorisation\2. Articles\4. Puissance & vitesse marche\Results_Locox_Frontiers\';
+% FILENAME_DBPATIENTS = 'Y:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\liste_volontaires.xlsx';
+% folder = 'Y:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\Volontaires\';
+% repertorySave = 'B:\Documents\4. Valorisation\2. Articles\4. Puissance & vitesse marche\Results_Locox_Frontiers\';
+
+%% Chemin ordi DL 
+FILENAME_DBPATIENTS = 'Z:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\liste_volontaires.xlsx';
+folder = 'Z:\Backup PIT\Backup Vicon\projets terminés\LOCOX_2\Volontaires\';
+repertorySave = 'C:\Users\davy.laroche\Documents\';
 
 %% listing subject
 [~,~,DB] = xlsread(FILENAME_DBPATIENTS);
