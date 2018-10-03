@@ -37,7 +37,7 @@ pointsLabelStruct = {'Ptilt', 'Pobli','Prota',...
     'KneeExtMoment','KneeAbdMoment','KneeRotMoment',...
     'AnklePlantMoment',...
     'HipPower','KneePower','AnklePower',...
-    'LatMedGRF','AntPostGRF','VerticalGRF','CoM_vert','SpeedWalkingCoM'};
+    'LatMedGRF','AntPostGRF','VerticalGRF','CoM_vert','SpeedWalkingCoM','CoM'};
 
 
 numStruct = length(pointsLabelStruct);
@@ -210,7 +210,7 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                             %n = size(points.(pointsLabel{k})(RHS1:RHS2,:),1);
                             %dataExtracted.(pointsLabel{k}) = points.(pointsLabel{k})(RHS1:RHS2,:);
                             tempdata = points.(pointsLabel{k})(RHS1:RHS2,:);
-                            tempdataButterFilt = filtfilt(b,a,points.(pointsLabel{k})(RHS1:RHS2,:));
+                            tempdataButterFilt = tempdata; %filtfilt(b,a,points.(pointsLabel{k})(RHS1:RHS2,:));
                             %dataExtracted.(pointsLabel{k}) = interp1((1:n)',points.(pointsLabel{k})(RHS1:RHS2,:),...
                             %    linspace(1,n,101)','spline');
                             
@@ -247,6 +247,8 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         
                                         %% ajout MG pour LOCOX Frontiers
                                         CoM = dataExtracted.CentreOfMass;
+                                        meanAngle.CoM(:,indglob) = dataExtracted.CentreOfMass(:,3);
+                                        
                                         % Calcul de la direction dans laquelle le patient ce déplace
                                         [~,indDeplMax] = max(abs(CoM(end,:)-CoM(1,:)));
 
@@ -302,7 +304,7 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         meanAngle.TOL(:,indglob*3-2:indglob*3) = dataExtracted.RTOL;
                                         meanAngle.TOP(:,indglob*3-2:indglob*3) = dataExtracted.RTOP;
                                         
-                                        NormMoment = bodyMass*9.81*LegLenght;
+                                        NormMoment = 1;%bodyMass*9.81*LegLenght;
                                         
                                         % Moment
                                         meanAngle.HipExtMoment(:,indglob) = dataExtracted.RHipMoment(:,1)/NormMoment;
@@ -318,9 +320,9 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         %                                 meanAngle.KneeEvertMoment = dataExtracted.RAnkleMoment(:,3);
                                         
                                         % Power
-                                        meanAngle.HipPower(:,indglob) = dataExtracted.RHipPower(:,3);
-                                        meanAngle.KneePower(:,indglob) = dataExtracted.RKneePower(:,3);
-                                        meanAngle.AnklePower(:,indglob) = dataExtracted.RAnklePower(:,3);
+                                        meanAngle.HipPower(:,indglob) = dataExtracted.RHipPower(:,1);
+                                        meanAngle.KneePower(:,indglob) = dataExtracted.RKneePower(:,1);
+                                        meanAngle.AnklePower(:,indglob) = dataExtracted.RAnklePower(:,1);
                                         
                                         % Plateforme
                                         %                                     meanAngle.LatMedGRF(:,indglob) = forcePlateformNormalize(:,1);
@@ -345,6 +347,7 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         %                                     LegLenght = LLegLength/1000;
                                         
                                         CoM = dataExtracted.CentreOfMass;
+                                        meanAngle.CoM(:,indglob) = dataExtracted.CentreOfMass(:,3);
                                         % Calcul de la direction dans laquelle le patient ce déplace
                                         [~,indDeplMax] = max(abs(CoM(end,:)-CoM(1,:)));
 
@@ -401,7 +404,8 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         meanAngle.TOP(:,indglob*3-2:indglob*3) = dataExtracted.LTOP;
                                         
                                         
-                                        NormMoment = bodyMass*9.81*LegLenght;
+                                        NormMoment = 1;%bodyMass*9.81*LegLenght;
+                                        
                                         % Moment
                                         meanAngle.HipExtMoment(:,indglob) = dataExtracted.LHipMoment(:,1)/NormMoment;
                                         meanAngle.HipAbdMoment(:,indglob) = dataExtracted.LHipMoment(:,2)/NormMoment;

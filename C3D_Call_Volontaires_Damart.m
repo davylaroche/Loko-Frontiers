@@ -92,16 +92,21 @@ for c1 = 1 : length(id)
     % calculer la stiffness uniquement sur les pas plateformes (lorsque les
     % moments sont calculables)
     clear i
-    [maxKneeMoment,index_maxKneeMoment] = max(KINsel.KneeExtMoment,[],1);
-    [maxAnkleMoment,index_maxAnkleMoment] = max(KINsel.AnklePlantMoment,[],1);
+%     [maxKneeMoment,index_maxKneeMoment] = max(KINsel.KneeExtMoment,[],1);
+%     [maxAnkleMoment,index_maxAnkleMoment] = max(KINsel.AnklePlantMoment,[],1);
+
+    [maxCoMvert,index_maxCoMvert] = max(KINsel.CoM,[],1);
     
     for i = 1:size(KINsel.KneeExtMoment,2)
         clear deltaKneeMoment deltaAnkleMoment deltaKneeAngle deltaAnkleAngle K_Knee K_Ankle
-        deltaKneeMoment = KINsel.KneeExtMoment(index_maxKneeMoment(i),i)-KINsel.KneeExtMoment(1,i);
-        deltaAnkleMoment = KINsel.AnklePlantMoment(index_maxAnkleMoment(i),i)-KINsel.AnklePlantMoment(1,i);
+        deltaKneeMoment = KINsel.KneeExtMoment(index_maxCoMvert(i),i)-KINsel.KneeExtMoment(1,i);
+        deltaAnkleMoment = KINsel.AnklePlantMoment(index_maxCoMvert(i),i)-KINsel.AnklePlantMoment(1,i);
         
-        deltaKneeAngle = KINsel.Kflex(index_maxKneeMoment(i),i)-KINsel.Kflex(1,i);
-        deltaAnkleAngle = KINsel.Aflex(index_maxAnkleMoment(i),i)-KINsel.Aflex(1,i);
+        deltaKneeMoment = deltaKneeMoment/1000;
+        deltaAnkleMoment = deltaAnkleMoment/1000;
+        
+        deltaKneeAngle = KINsel.Kflex(index_maxCoMvert(i),i)-KINsel.Kflex(1,i);
+        deltaAnkleAngle = KINsel.Aflex(index_maxCoMvert(i),i)-KINsel.Aflex(1,i);
         
         K_Knee = deltaKneeMoment/deltaKneeAngle;
         K_Ankle = deltaAnkleMoment/deltaAnkleAngle;
