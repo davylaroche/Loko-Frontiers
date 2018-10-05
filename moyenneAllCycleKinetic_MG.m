@@ -69,38 +69,38 @@ fc = 40;%fréquence de coupure
 [b,a] = butter(4,fc/(freq/2));
 
 
-%% version avec PROCESSING
-metaData = btkGetMetaData(acq);
-bodyMass = metaData.children.PROCESSING.children.Bodymass.info.values;
+% %% version avec PROCESSING
+% metaData = btkGetMetaData(acq);
+% bodyMass = metaData.children.PROCESSING.children.Bodymass.info.values;
 
 
 %% version sans PROCESSING (utilisation fichier sujet.mp pour obtenir les données anthropométriques)
 % % test = cd;
-% 
-% filefile = dir(fullfile(pathname, '*.mp'));
-% 
-% if length(filefile)>1
-%     cd(pathname)
-%     filefile = uigetfile('*.mp');
-% end
-% 
-% filefilefile = [pathname,filefile(1).name];
-% 
-% fid = fopen(filefilefile, 'rt');
-% datacell = textscan( fid, '%s=%f' );
-% fclose(fid);
-% textdata = datacell{1};
-% data = datacell{2};
-% 
-% for fff = 1:size(textdata,1);
-%     if strcmp(textdata(fff),'$Bodymass')
-%         bodyMass = data(fff)
-%     elseif strcmp(textdata(fff),'$LLegLength')
-%         LLegLength = data(fff)
-%     elseif strcmp(textdata(fff),'$RLegLength')
-%         RLegLength = data(fff)
-%     end
-% end
+
+filefile = dir(fullfile(pathname, '*.mp'));
+
+if length(filefile)>1
+    cd(pathname)
+    filefile = uigetfile('*.mp');
+end
+
+filefilefile = [pathname,filefile(1).name];
+
+fid = fopen(filefilefile, 'rt');
+datacell = textscan( fid, '%s=%f' );
+fclose(fid);
+textdata = datacell{1};
+data = datacell{2};
+
+for fff = 1:size(textdata,1);
+    if strcmp(textdata(fff),'$Bodymass')
+        bodyMass = data(fff);
+    elseif strcmp(textdata(fff),'$LLegLength')
+        LLegLength = data(fff);
+    elseif strcmp(textdata(fff),'$RLegLength')
+        RLegLength = data(fff);
+    end
+end
  
 %%
 
@@ -243,8 +243,10 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                         if  perctFrameWthPlat>0.05                 
                             
                                     if strcmpi(side,'right')
-                                        LegLenght = metaData.children.PROCESSING.children.RLegLength.info.values/1000;
-                                        
+%                                         LegLenght = metaData.children.PROCESSING.children.RLegLength.info.values/1000;
+                                        % sans PROCESSING
+                                        LegLenght = RLegLength/1000;                                        
+
                                         %% ajout MG pour LOCOX Frontiers
                                         CoM = dataExtracted.CentreOfMass;
                                         meanAngle.CoM(:,indglob) = dataExtracted.CentreOfMass(:,3);
@@ -342,9 +344,9 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         
                                        
                                     elseif strcmpi(side,'left')
-                                        LegLenght = metaData.children.PROCESSING.children.LLegLength.info.values/1000;
+%                                         LegLenght = metaData.children.PROCESSING.children.LLegLength.info.values/1000;
                                         % sans PROCESSING
-                                        %                                     LegLenght = LLegLength/1000;
+                                                                            LegLenght = LLegLength/1000;
                                         
                                         CoM = dataExtracted.CentreOfMass;
                                         meanAngle.CoM(:,indglob) = dataExtracted.CentreOfMass(:,3);
