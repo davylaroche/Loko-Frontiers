@@ -65,7 +65,7 @@ freq = btkGetPointFrequency(acq);
 points = btkGetPoints(acq);
 Events = btkGetEvents(acq);
 
-fc = 40;%fréquence de coupure
+fc = 10;%fréquence de coupure
 [b,a] = butter(4,fc/(freq/2));
 
 
@@ -322,9 +322,28 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         %                                 meanAngle.KneeEvertMoment = dataExtracted.RAnkleMoment(:,3);
                                         
                                         % Power
-                                        meanAngle.HipPower(:,indglob) = dataExtracted.RHipPower(:,1);
-                                        meanAngle.KneePower(:,indglob) = dataExtracted.RKneePower(:,1);
-                                        meanAngle.AnklePower(:,indglob) = dataExtracted.RAnklePower(:,1);
+                                        % nouveau traitement PIG
+                                        % Vicon,scalaire sur z uniquement
+                                        % et ancien traitement matrice sur
+                                        % x (racine carrée de la somme au carré des 3 composantes donne des
+                                        % valeurs aberrantes)
+                                        if sum(dataExtracted.RHipPower(:,1))==0;
+                                           meanAngle.HipPower(:,indglob) = dataExtracted.RHipPower(:,3);
+                                           meanAngle.KneePower(:,indglob) = dataExtracted.RKneePower(:,3);
+                                           meanAngle.AnklePower(:,indglob) = dataExtracted.RAnklePower(:,3);
+                                        else
+                                          meanAngle.HipPower(:,indglob) = dataExtracted.RHipPower(:,1);
+                                          meanAngle.KneePower(:,indglob) = dataExtracted.RKneePower(:,1);
+                                          meanAngle.AnklePower(:,indglob) = dataExtracted.RAnklePower(:,1);
+                                        end
+                                           
+                                                                                  
+                                        % filtrage puissance pour enlever les
+                                        % artefacts
+                                        meanAngle.HipPower(:,indglob) = filtfilt(b,a,meanAngle.HipPower(:,indglob));
+                                        meanAngle.KneePower(:,indglob) = filtfilt(b,a,meanAngle.KneePower(:,indglob));
+                                        meanAngle.AnklePower(:,indglob) = filtfilt(b,a,meanAngle.AnklePower(:,indglob));
+                                        
                                         
                                         % Plateforme
                                         %                                     meanAngle.LatMedGRF(:,indglob) = forcePlateformNormalize(:,1);
@@ -422,9 +441,27 @@ if isfield(points,'RPelvisAngles') && isfield(points,'LPelvisAngles') ...
                                         %                                 meanAngle.KneeEvertMoment = dataExtracted.RAnkleMoment(:,3);
                                         
                                         % Power
-                                        meanAngle.HipPower(:,indglob) = dataExtracted.LHipPower(:,1);
-                                        meanAngle.KneePower(:,indglob) = dataExtracted.LKneePower(:,1);
-                                        meanAngle.AnklePower(:,indglob) = dataExtracted.LAnklePower(:,1);
+                                        % nouveau traitement PIG
+                                        % Vicon,scalaire sur z uniquement
+                                        % et ancien traitement matrice sur les 3
+                                        % axes  
+                                        if sum(dataExtracted.LHipPower(:,1))==0;
+                                          meanAngle.HipPower(:,indglob) = dataExtracted.LHipPower(:,3);
+                                          meanAngle.KneePower(:,indglob) = dataExtracted.LKneePower(:,3);
+                                          meanAngle.AnklePower(:,indglob) = dataExtracted.LAnklePower(:,3);
+                                        else
+                                          meanAngle.HipPower(:,indglob) = dataExtracted.LHipPower(:,1);
+                                          meanAngle.KneePower(:,indglob) = dataExtracted.LKneePower(:,1);
+                                          meanAngle.AnklePower(:,indglob) = dataExtracted.LAnklePower(:,1);
+                                        end
+                                        
+                                                                                
+                                        % filtrage pour enlever les
+                                        % artefacts
+                                        meanAngle.HipPower(:,indglob) = filtfilt(b,a,meanAngle.HipPower(:,indglob));
+                                        meanAngle.KneePower(:,indglob) = filtfilt(b,a,meanAngle.KneePower(:,indglob));
+                                        meanAngle.AnklePower(:,indglob) = filtfilt(b,a,meanAngle.AnklePower(:,indglob));
+                                        
                                         
                                         % Plateforme
                                         %                                     meanAngle.LatMedGRF(:,indglob) = forcePlateformNormalize(:,1);

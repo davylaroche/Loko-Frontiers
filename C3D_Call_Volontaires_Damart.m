@@ -24,7 +24,7 @@ tableauExcelTotal = {'Sujet','vitesseMarche',...
     'IntegralePHipPositive','IntegralePHipNegative','IntegralePKneePositive','IntegralePKneeNegative','IntegralePAnklePositive','IntegralePAnkleNegative'};
 
 %% Listing C3D par Volontaires
-for c1 = 9%1 : length(id)
+for c1 = 1 : length(id)
     c1
     id(c1, :)
     
